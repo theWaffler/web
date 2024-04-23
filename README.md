@@ -1,2 +1,2 @@
-# web
-My portfolio
+# Hello
+Just using github as my host lol
