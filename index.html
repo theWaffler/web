@@ -14,13 +14,13 @@
             justify-content: center;
             align-items: center;
             background: #1a1a1a;
-            font-family: Arial, sans-serif;
+            font-family: "Courier New", monospace;
             perspective: 1000px;
         }
 
         .card {
-            width: 300px;
-            height: 420px;
+            width: 360px;
+            height: 500px;
             position: relative;
             transform-style: preserve-3d;
             transition: transform 0.5s ease;
@@ -70,11 +70,12 @@
         .title-bar {
             background: #3D2B24;
             color: #D4C3B8;
-            padding: 10px 15px;
+            padding: 8px 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 1.1em;
+            font-size: 1em;
+            letter-spacing: 0.5px;
         }
 
         .mana-symbols {
@@ -83,20 +84,20 @@
         }
 
         .mana-symbol {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             background: #1a1a1a;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 14px;
+            font-size: 12px;
             border: 1px solid rgba(212, 195, 184, 0.3);
             box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
         }
 
         .art-box {
-            height: 200px;
+            height: 45%;
             background: #1D1D1D;
             display: flex;
             justify-content: center;
@@ -106,18 +107,24 @@
         }
 
         .waffle-img {
-            font-size: 90px;
-            animation: float 3s ease-in-out infinite;
-            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+            width: 100px;
+            height: 100px;
+            background-image: url('/api/placeholder/100/100');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            position: relative;
+            z-index: 1;
         }
 
         .type-line {
             background: #3D2B24;
             color: #D4C3B8;
-            padding: 8px 15px;
-            font-size: 0.9em;
+            padding: 6px 15px;
+            font-size: 0.85em;
             border-top: 1px solid #000;
             border-bottom: 1px solid #000;
+            letter-spacing: 0.5px;
         }
 
         .text-box {
@@ -125,13 +132,30 @@
             background: #1D1D1D;
             color: #D4C3B8;
             padding: 15px;
-            font-size: 0.9em;
+            font-size: 0.85em;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            letter-spacing: 0.5px;
+            line-height: 1.4;
         }
 
-        .text-box p {
-            margin: 0 0 10px 0;
-            text-shadow: 0 0 5px rgba(212, 195, 184, 0.3);
+        .text-content {
+            margin-bottom: auto;
+        }
+
+        .tap-text {
+            color: #808080;
+            font-style: italic;
+            margin-top: 8px;
+        }
+
+        .power-toughness {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            color: #D4C3B8;
+            font-size: 0.9em;
         }
 
         .github-button {
@@ -142,53 +166,28 @@
             color: #D4C3B8;
             text-decoration: none;
             padding: 8px 12px;
-            border-radius: 5px;
+            border-radius: 4px;
             margin-top: 10px;
             width: fit-content;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(139, 69, 19, 0.3);
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
         }
 
         .github-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+            background: rgba(81, 63, 56, 0.9);
         }
 
-        .power-toughness {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
+        .github-icon {
+            font-size: 16px;
             color: #D4C3B8;
-            font-size: 0.9em;
-            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
-        }
-
-        .tap-text {
-            font-style: italic;
-            margin-top: 8px;
-        }
-
-        .magical-sparkles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
         }
 
         .sparkle {
             position: absolute;
-            width: 3px;
-            height: 3px;
+            pointer-events: none;
             background: white;
             border-radius: 50%;
-            animation: sparkle 1.5s linear infinite;
-            opacity: 0;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            animation: sparkle 1s linear forwards;
         }
 
         @keyframes borderGlow {
@@ -197,15 +196,19 @@
         }
 
         @keyframes sparkle {
-            0% { transform: translate(0, 0) scale(0); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translate(var(--tx), var(--ty)) scale(1); opacity: 0; }
+            0% { 
+                transform: translate(0, 0) scale(0);
+                opacity: 1;
+            }
+            100% { 
+                transform: translate(var(--tx), var(--ty)) scale(1);
+                opacity: 0;
+            }
         }
     </style>
 </head>
 <body>
     <div class="card">
-        <div class="magical-sparkles"></div>
         <div class="card-inner">
             <div class="card-frame">
                 <div class="title-bar">
@@ -215,19 +218,21 @@
                         <div class="mana-symbol">💻</div>
                     </div>
                 </div>
-                <div class="art-box">
-                    <div class="waffle-img">🧇</div>
+                <div class="art-box" id="artBox">
+                    <div class="waffle-img"></div>
                 </div>
                 <div class="type-line">
                     Legendary Creature — Developer Waffle
                 </div>
                 <div class="text-box">
-                    <p>When theWaffler enters the battlefield, create three Code tokens.</p>
-                    <p class="tap-text">Tap: Visit theWaffler's GitHub repository.</p>
-                    <a href="https://github.com/theWaffler" class="github-button">
-                        <i class="fab fa-github"></i>
-                        <span>View Repository</span>
-                    </a>
+                    <div class="text-content">
+                        <div>When theWaffler enters the battlefield, create three Code tokens.</div>
+                        <div class="tap-text">Tap: Visit theWaffler's GitHub repository.</div>
+                        <a href="https://github.com/theWaffler" class="github-button">
+                            <i class="fab fa-github github-icon"></i>
+                            <span>View Repository</span>
+                        </a>
+                    </div>
                     <div class="power-toughness">∞/∞</div>
                 </div>
             </div>
@@ -235,34 +240,40 @@
     </div>
 
     <script>
-        // Sparkle effect
-        const sparklesContainer = document.querySelector('.magical-sparkles');
+        const artBox = document.getElementById('artBox');
         
         function createSparkle() {
             const sparkle = document.createElement('div');
             sparkle.className = 'sparkle';
             
-            const x = Math.random() * 100;
-            const y = Math.random() * 100;
+            const size = Math.random() * 2 + 2;
+            sparkle.style.width = `${size}px`;
+            sparkle.style.height = `${size}px`;
             
-            const tx = (Math.random() - 0.5) * 50;
-            const ty = (Math.random() - 0.5) * 50;
+            const boxRect = artBox.getBoundingClientRect();
+            const centerX = boxRect.width / 2;
+            const centerY = boxRect.height / 2;
             
-            sparkle.style.left = `${x}%`;
-            sparkle.style.top = `${y}%`;
+            const angle = Math.random() * Math.PI * 2;
+            const distance = Math.random() * 30 + 20;
+            const startX = centerX + Math.cos(angle) * distance;
+            const startY = centerY + Math.sin(angle) * distance;
+            
+            const tx = Math.cos(angle) * (distance + 20);
+            const ty = Math.sin(angle) * (distance + 20);
+            
+            sparkle.style.left = `${startX}px`;
+            sparkle.style.top = `${startY}px`;
             sparkle.style.setProperty('--tx', `${tx}px`);
             sparkle.style.setProperty('--ty', `${ty}px`);
             
-            sparklesContainer.appendChild(sparkle);
+            artBox.appendChild(sparkle);
             
-            setTimeout(() => {
-                sparkle.remove();
-            }, 1500);
+            setTimeout(() => sparkle.remove(), 1000);
         }
 
         setInterval(createSparkle, 100);
 
-        // 3D tilt effect
         const card = document.querySelector('.card');
         
         card.addEventListener('mousemove', (e) => {
