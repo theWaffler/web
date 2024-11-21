@@ -16,6 +16,7 @@
             background: #1a1a1a;
             font-family: "Courier New", monospace;
             perspective: 1000px;
+            overflow: hidden;
         }
 
         .card {
@@ -23,8 +24,10 @@
             height: 500px;
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.5s ease;
+            transition: transform 0.3s ease;
             cursor: pointer;
+            transform: rotateX(0) rotateY(0);
+            will-change: transform;
         }
 
         .card::before {
@@ -56,6 +59,7 @@
                 0 0 20px rgba(0,0,0,0.5),
                 0 0 40px rgba(139, 69, 19, 0.3),
                 inset 0 0 20px rgba(0,0,0,0.2);
+            transform-style: preserve-3d;
         }
 
         .card-frame {
@@ -65,6 +69,7 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            transform-style: preserve-3d;
         }
 
         .title-bar {
@@ -76,11 +81,13 @@
             align-items: center;
             font-size: 1em;
             letter-spacing: 0.5px;
+            transform: translateZ(20px);
         }
 
         .mana-symbols {
             display: flex;
             gap: 5px;
+            transform: translateZ(25px);
         }
 
         .mana-symbol {
@@ -104,6 +111,7 @@
             align-items: center;
             position: relative;
             overflow: hidden;
+            transform: translateZ(15px);
         }
 
         .waffle-img {
@@ -115,11 +123,7 @@
             background-position: center;
             position: relative;
             z-index: 1;
-            /*
-            border-radius: 50%;
-            border: 2px solid #3D2B24;
-            */
-            box-shadow: 0 0 2px rgba(139, 69, 19, 0.5);
+            transform: translateZ(10px);
         }
 
         .type-line {
@@ -130,6 +134,7 @@
             border-top: 1px solid #000;
             border-bottom: 1px solid #000;
             letter-spacing: 0.5px;
+            transform: translateZ(20px);
         }
 
         .text-box {
@@ -143,10 +148,12 @@
             flex-direction: column;
             letter-spacing: 0.5px;
             line-height: 1.4;
+            transform: translateZ(15px);
         }
 
         .text-content {
             margin-bottom: auto;
+            transform: translateZ(5px);
         }
 
         .tap-text {
@@ -161,6 +168,7 @@
             right: 10px;
             color: #D4C3B8;
             font-size: 0.9em;
+            transform: translateZ(25px);
         }
 
         .github-button {
@@ -176,6 +184,7 @@
             width: fit-content;
             font-size: 0.9em;
             transition: background-color 0.3s ease;
+            transform: translateZ(20px);
         }
 
         .github-button:hover {
@@ -208,6 +217,18 @@
             100% { 
                 transform: translate(var(--tx), var(--ty)) scale(1);
                 opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                width: 300px;
+                height: 420px;
+            }
+            
+            .waffle-img {
+                width: 160px;
+                height: 160px;
             }
         }
     </style>
@@ -245,8 +266,62 @@
     </div>
 
     <script>
+        const card = document.querySelector('.card');
         const artBox = document.getElementById('artBox');
-        
+        let isTouch = false;
+
+        // Mouse move effect
+        function handleMouseMove(e) {
+            if (isTouch) return;
+            
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 20;
+            const rotateY = -(x - centerX) / 20;
+            
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        }
+
+        // Touch effect
+        function handleTouchMove(e) {
+            isTouch = true;
+            const touch = e.touches[0];
+            const rect = card.getBoundingClientRect();
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 20;
+            const rotateY = -(x - centerX) / 20;
+            
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        }
+
+        // Gyroscope effect
+        function handleOrientation(e) {
+            if (!isTouch) return;
+            
+            const gamma = e.gamma; // Left to Right
+            const beta = e.beta;   // Front to Back
+            
+            const rotateY = gamma / 2;
+            const rotateX = (beta - 45) / 2;
+            
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        }
+
+        function resetTransform() {
+            card.style.transform = 'rotateX(0) rotateY(0)';
+        }
+
+        // Sparkle effect
         function createSparkle() {
             const sparkle = document.createElement('div');
             sparkle.className = 'sparkle';
@@ -278,27 +353,18 @@
             setTimeout(() => sparkle.remove(), 1000);
         }
 
+        // Event listeners
+        card.addEventListener('mousemove', handleMouseMove);
+        card.addEventListener('mouseleave', resetTransform);
+        card.addEventListener('touchmove', handleTouchMove);
+        card.addEventListener('touchend', resetTransform);
+        window.addEventListener('deviceorientation', handleOrientation);
         setInterval(createSparkle, 50);
 
-        const card = document.querySelector('.card');
-        
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            const rotateX = (y - centerY) / 20;
-            const rotateY = -(x - centerX) / 20;
-            
-            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        });
-
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'rotateX(0) rotateY(0)';
-        });
+        // Check if device supports gyroscope
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', handleOrientation);
+        }
     </script>
 </body>
 </html>
