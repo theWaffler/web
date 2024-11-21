@@ -156,12 +156,6 @@
             transform: translateZ(5px);
         }
 
-        .tap-text {
-            color: #808080;
-            font-style: italic;
-            margin-top: 20px;
-        }
-
         .power-toughness {
             position: absolute;
             bottom: 10px;
@@ -171,7 +165,14 @@
             transform: translateZ(25px);
         }
 
-        .github-button {
+        .social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .social-button {
             display: flex;
             align-items: center;
             gap: 8px;
@@ -180,18 +181,17 @@
             text-decoration: none;
             padding: 8px 12px;
             border-radius: 4px;
-            margin-top: 12px;
             width: fit-content;
             font-size: 0.9em;
             transition: background-color 0.3s ease;
             transform: translateZ(20px);
         }
 
-        .github-button:hover {
+        .social-button:hover {
             background: rgba(81, 63, 56, 0.9);
         }
 
-        .github-icon {
+        .social-icon {
             font-size: 16px;
             color: #D4C3B8;
         }
@@ -240,7 +240,7 @@
                 <div class="title-bar">
                     <span>Jay</span>
                     <div class="mana-symbols">
-                        <div class="mana-symbol">🧇</div>
+                        <div class="mana-symbol">💻</div>
                         <div class="mana-symbol">💻</div>
                     </div>
                 </div>
@@ -253,11 +253,20 @@
                 <div class="text-box">
                     <div class="text-content">
                         <div>When Jay enters the battlefield, create one critical segfault.</div>
-                        <div class="tap-text">Tap: Visit Jay's GitHub profile</div>
-                        <a href="https://github.com/theWaffler" class="github-button">
-                            <i class="fab fa-github github-icon"></i>
-                            <span>Github Profile</span>
-                        </a>
+                        <div class="social-buttons">
+                            <a href="https://github.com/theWaffler" class="social-button">
+                                <i class="fab fa-github social-icon"></i>
+                                <span>Github Profile</span>
+                            </a>
+                            <a href="https://ohhhmyyyjayyy.itch.io/" class="social-button">
+                                <i class="fab fa-itch-io social-icon"></i>
+                                <span>itch.io Profile</span>
+                            </a>
+                            <a href="https://www.linkedin.com/in/gjudianto/" class="social-button">
+                                <i class="fab fa-linkedin-in social-icon"></i>
+                                <span>LinkedIn</span>
+                            </a>
+                        </div>
                     </div>
                     <div class="power-toughness">∞/∞</div>
                 </div>
